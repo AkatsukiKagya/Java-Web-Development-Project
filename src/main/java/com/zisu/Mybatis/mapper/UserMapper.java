@@ -12,4 +12,5 @@ public interface UserMapper {
     public User getUserBymap(Map<String, Object> map);
     public User getUserByParamAnnotation(@Param("userid") String userid, @Param("username") String username);
     public User getUserByUser(User user);
+    public User updateUser(User user);
 }
