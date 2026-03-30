@@ -8,6 +8,14 @@
       insert into t_user values(null,'admin0312','123456',23,'男','12345@qq.com')
     </insert>
 
+    <insert id="batchInsertUsers">
+        insert into t_user (username)
+        values
+        <foreach collection="list" item="user" separator=",">
+            (#{user.username})
+        </foreach>
+    </insert>
+
     <select id="getUserByUserid" resultType="user">
         SELECT * FROM t_user WHERE userid = ${userid}
     </select>
@@ -21,4 +29,47 @@
     <update id="updateUser">
         update t_user set username='root3',password='1234' where id = 5
     </update>
+    <delete id="deleteUserById" >
+        delete from t_user where id = ${id}
+    </delete>
+
+    <resultMap id="clazzWithCoursesMap" type="clazz">
+        <id property="clazzId" column="clazz_id"/>
+        <result property="clazzName" column="clazz_name"/>
+        <result property="clazzCremarks" column="clazz_cremarks"/>
+        <collection property="courses" ofType="course">
+            <id property="cId" column="c_id"/>
+            <result property="cName" column="c_name"/>
+            <result property="cRedit" column="c_redit"/>
+            <result property="cHours" column="c_hours"/>
+        </collection>
+    </resultMap>
+
+    <select id="getClazzWithCoursesById" resultMap="clazzWithCoursesMap">
+        SELECT c.clazz_id,
+               c.clazz_name,
+               c.clazz_cremarks,
+               co.c_id,
+               co.c_name,
+               co.c_redit,
+               co.c_hours
+        FROM t_clazz c
+        LEFT JOIN t_clazz_course cc ON c.clazz_id = cc.clazz_id
+        LEFT JOIN t_course co ON cc.c_id = co.c_id
+        WHERE c.clazz_id = #{clazzId}
+    </select>
+
+    <select id="getAllClazzWithCourses" resultMap="clazzWithCoursesMap">
+        SELECT c.clazz_id,
+               c.clazz_name,
+               c.clazz_cremarks,
+               co.c_id,
+               co.c_name,
+               co.c_redit,
+               co.c_hours
+        FROM t_clazz c
+        LEFT JOIN t_clazz_course cc ON c.clazz_id = cc.clazz_id
+        LEFT JOIN t_course co ON cc.c_id = co.c_id
+        ORDER BY c.clazz_id
+    </select>
 </mapper>
