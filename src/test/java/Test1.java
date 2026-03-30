@@ -55,7 +55,7 @@ public class Test1 {
         user.setUserid("22");
         user.setUsername("2222");
         Integer count = mapper.updateUser(user);
-        System.out.println("更新");
+        System.out.println("更新条数: " + count);
         // 提交事务-没有自动提交事务时，使用显式的方式的提交事务
         // sqlSession.commit();
         // 关闭SqlSession
@@ -77,7 +77,7 @@ public class Test1 {
         // 获取UserMapper的代理实现类对象
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
         Integer count = mapper.deleteUserById(5);
-        System.out.println("删除");
+        System.out.println("删除条数: " + count);
         // 提交事务-没有自动提交事务时，使用显式的方式的提交事务
         // sqlSession.commit();
         // 关闭SqlSession
@@ -95,8 +95,7 @@ public class Test1 {
         List<User> users = Arrays.asList(
                 new User(null, "BatchUser01"),
                 new User(null, "BatchUser02"),
-                new User(null, "BatchUser03")
-        );
+                new User(null, "BatchUser03"));
         Integer count = mapper.batchInsertUsers(users);
         System.out.println("批量插入条数: " + count);
 

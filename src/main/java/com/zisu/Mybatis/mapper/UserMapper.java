@@ -20,7 +20,7 @@ public interface UserMapper {
 
     public User getUserByUser(User user);
 
-    public User updateUser(User user);
+    public Integer updateUser(User user);
 
     public Integer batchInsertUsers(List<User> users);
 
